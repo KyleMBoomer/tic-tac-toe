@@ -2,7 +2,7 @@
 var cells = document.querySelectorAll('[id^="cell"]')
 var playerSelect = document.getElementById('player-select')
 //Variables & Data Model
-var gameBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+var gameBoard = ['cell-0', 'cell-1', 'cell-2', 'cell-3', 'cell-4', 'cell-5', 'cell-6', 'cell-7', 'cell-8',  ]
 var fireWins = []
 var waterWins = []
 
@@ -19,9 +19,9 @@ cells.forEach(cell => {
 playerSelect.addEventListener('change', () => {
     var selectedPlayer = playerSelect.value
     if (selectedPlayer === 'Fire') {
-        currentPlayer = createPlayer('currentPlayer', '🔥', 0)
+        currentPlayer = createPlayer('masterOfFire', '🔥', 0)
     } else if (selectedPlayer === 'Water') {
-        currentPlayer = createPlayer('currentPlayer', ' 🌊 ', 0) 
+        currentPlayer = createPlayer('masterOfWater', ' 🌊 ', 0) 
     }
 })
 //eventHandlers
@@ -35,6 +35,10 @@ function createPlayer(id, token, wins) {
     }
 }
 
-function declareTurn() {
+function hide(element) {
+    element.classList.add('hidden')
+}
 
+function show(element) {
+    element.classList.remove('hidden')
 }

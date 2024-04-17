@@ -34,7 +34,7 @@ label {
 }
 
 .player-select {
-    background: greenyellow;
+    background: rgb(34, 253, 23);
     border-radius: .3rem;
     font-family: "Audiowide", sans-serif;
     width: 10rem;
@@ -59,6 +59,7 @@ label {
     grid-template-rows: repeat(3, 1fr);
     width: 50%;
     height: 20rem;
+    margin-top:3rem;
 }
 
 
