@@ -29,6 +29,18 @@ h1 {
     font-size:xx-large ;
 }
 
+label {
+    font-size:x-large;
+}
+
+.player-select {
+    background: greenyellow;
+    border-radius: .3rem;
+    font-family: "Audiowide", sans-serif;
+    width: 10rem;
+    height:2rem; 
+}
+
 .player-left,
 .player-right {
     width: 25%;
@@ -80,4 +92,8 @@ h1 {
 
 .cell-4, .cell-5, .cell-6, .cell-7, .cell-8, .cell-9 {
     border-right: none; 
+}
+
+.hidden {
+    display: none; 
 }
