@@ -8,35 +8,41 @@
     <link rel="stylesheet" href="styles.css">
     <title>Tic⤫Tac⥁Toe</title>
 </head>
-<section class="great-grandparent">
+<section class="grandparent">
     <div id="fire-score" class="player-left">
-        <p> 🔥 Master of Fire 🔥 </p><span id="player1-wins">0</span></p>
+        <p> 🔥 Master of Fire 🔥 </p><span id="player1-wins">0 wins</span></p>
     </div>
-    <div class="gameboard">
-        <div class="row">
-            <div class="cell" id="cell-0"></div>
-            <div class="cell" id="cell-1"></div>
-            <div class="cell" id="cell-2"></div>
+    <section class="board-container">
+        <div class="banner-wrapper">
+            <h1> Tic-Tac-Toe</h1>
         </div>
-        <div class="row">
-            <div class="cell" id="cell-3"></div>
-            <div class="cell" id="cell-4"></div>
-            <div class="cell" id="cell-5"></div>
+        <div class="gameboard">
+            <div class="row">
+                <div class="cell" id="cell-0"></div>
+                <div class="cell" id="cell-1"></div>
+                <div class="cell" id="cell-2"></div>
+            </div>
+            <div class="row">
+                <div class="cell" id="cell-3"></div>
+                <div class="cell" id="cell-4"></div>
+                <div class="cell" id="cell-5"></div>
+            </div>
+            <div class="row">
+                <div class="cell" id="cell-6"></div>
+                <div class="cell" id="cell-7"></div>
+                <div class="cell" id="cell-8"></div>
+            </div>
         </div>
-        <div class="row">
-            <div class="cell" id="cell-6"></div>
-            <div class="cell" id="cell-7"></div>
-            <div class="cell" id="cell-8"></div>
-        </div>
-    </div>
-    </div>
+    </section>
     <div id="water-score" class="player-right">
-        <p> 🌊 Master of Water 🌊 </p><span id="player2-wins">0</span></p>
+        <p> 🌊 Master of Water 🌊 </p><span id="player2-wins">0 wins</span></p>
     </div>
 </section>
+
 <body>
     <!-- <script src="./src/main.js"></script> -->
 </body>
+
 </html>
 <!-- Use meter tag for progress on win in refactor? -->
 <!-- Have a form for players to choose whether they're fire or water in refactor? -->

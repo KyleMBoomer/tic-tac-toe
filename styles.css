@@ -1,35 +1,51 @@
 body {
     font-family: "Audiowide", sans-serif;
 }
-.great-grandparent {
-    display:flex;
-    /* flex-direction:column; */
-    width:100vh;
-    height:100vh;
+
+.grandparent {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
+
+.banner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.25rem; 
+}
+
+.board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow:1;
+}
+
+.player-left,
+.player-right {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .gameboard {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    width: 20rem;
-    height: 20rem; 
-  }
-  
-  .row {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .cell {
+    width: 50%;
+    height: 20rem;
+}
+
+
+.cell {
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid #000;
-    width: 100%; 
-    height: 100%; 
-  }
+    width: 100%;
+    height: 100%;
+}
 
-  /* .player-right {
-    display:flex;
-    flex-direction:row-reverse;
-  } */
