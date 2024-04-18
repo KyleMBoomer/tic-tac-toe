@@ -76,7 +76,9 @@ label {
 
 .player-left {
     background: linear-gradient(yellow, orange, red);
+    animation: burn 2s infinite;
 }
+
 
 .player-right {
     background: linear-gradient(white, blue, royalblue);
