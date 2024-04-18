@@ -2,54 +2,57 @@
 var cells = document.querySelectorAll('.cell')
 var playerSelect = document.getElementById('player-select')
 var dropdown = document.querySelector('.player-select-dropdown')
+var header = document.querySelector('h3')
+var gameboard = document.querySelector('.gameboard')
 //Variables & Data Model
+var currentPlayer;
+var humanPlayer = createPlayer('', '')
 
-var currentPlayer = {
-    id:'',
-    token: '',
-    wins: 0,
-    guesses: []
-}
-
-var computerPlayer = {
-    id: '',
-    token: '',
-    wins : 0,
-    guesses: []
-}
+var computerPlayer = createPlayer('', '')
 
 //eventListeners
-cells.forEach(cell => {
-    cell.addEventListener('click', () => {
-        if (!cell.textContent) {
-            cell.textContent = currentPlayer.token
-//I need to change player turn, display that change in the dom as well, and 
-//push the id into the guesses array (push it in as a number) google that
-        }
-    })
+gameboard.addEventListener('click', function (e) {
+    if (e.target.classList.contains('cell')) {
+        addToken(e.target.id)
+    }
 })
 
 playerSelect.addEventListener('change', () => {
     console.log('hello')
     var selectedPlayer = playerSelect.value
     if (selectedPlayer === 'Fire') {
-        currentPlayer = createPlayer('masterOfFire', '🔥', 0)
+        humanPlayer = createPlayer('Master Of Fire', '🔥',)
     } else if (selectedPlayer === 'Water') {
-        currentPlayer = createPlayer('masterOfWater', ' 🌊 ', 0) 
+        humanPlayer = createPlayer('Master Of Water', ' 🌊 ')
     }
+    currentPlayer = humanPlayer
     hide(dropdown)
+    toggleTurn()
 })
 //eventHandlers
-
-//Functions 
-function createPlayer(id, token, wins) {
-    return {
-        id,
-        token,
-        wins
+function addToken(cellIndex) {
+    if (!cells[cellIndex].textContent) {
+        cells[cellIndex].textContent = humanPlayer.token
+        humanPlayer.guesses.push(+cellIndex)
+        toggleTurn()
     }
 }
 
+//Functions 
+function createPlayer(id, token) {
+    return {
+        id,
+        token,
+        wins: 0,
+        guesses: []
+    }
+}
+
+function toggleTurn() {
+    currentPlayer = currentPlayer === humanPlayer ? computerPlayer : humanPlayer
+    header.innerText = `It's ${currentPlayer.id}'s turn`
+    show(header)
+}
 
 
 function hide(element) {
