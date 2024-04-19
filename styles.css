@@ -39,6 +39,7 @@ label {
     font-family: "Audiowide", sans-serif;
     width: 10rem;
     height:2rem; 
+    cursor: pointer;
 }
 
 .player-left,
