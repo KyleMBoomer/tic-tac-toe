@@ -19,10 +19,10 @@ gameboard.addEventListener('click', function (e) {
     if (e.target.classList.contains('cell')) {
         addToken(e.target.id)
     }
+    determineWin(humanPlayer)
 })
 
 playerSelect.addEventListener('change', () => {
-    console.log('hello')
     var selectedPlayer = playerSelect.value
     if (selectedPlayer === 'Fire') {
         humanPlayer = createPlayer('Master Of Fire', '🔥',)
@@ -93,12 +93,25 @@ function computerMove() {
         cells[selectedIndex.id].textContent = computerPlayer.token
         computerPlayer.guesses.push(+selectedIndex.id)
     }
+    determineWin(computerPlayer)
     toggleTurn() 
 }
 
-function determineWin() {
-//establsh array of win comobos, do a nested loop here to cmpare the 
-//player guesses array to the combos 
+function determineWin(player) {
+    for (var i = 0; i < winningCombos.length; i++) {
+        console.log(winningCombos[i].length)
+        for (var j = 0; j < winningCombos[i].length; j++) {
+            if (player.guesses.includes(winningCombos[j])) {
+                player.wins ++
+                displayWin(player)
+            }
+        }
+    }
+}
+
+function displayWin(player) {
+    header.innerText = `Congrats! ${player.id} has won!`
+    player.innerText = `${player.wins}`
 }
 
 function hide(element) {
