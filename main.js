@@ -60,12 +60,14 @@ function createPlayer(id, token) {
 function toggleTurn() {
     if (currentPlayer === humanPlayer) {
         currentPlayer = computerPlayer
+        currentPlayer.token = computerPlayer.token
         header.innerText = `It's ${currentPlayer.id}'s turn.`
         gameboard.style.pointerEvents = 'none'
         setTimeout(computerMove, 1000)
         show(header)
     } else {
         currentPlayer = humanPlayer
+        currentPlayer.token = humanPlayer.token
         header.innerText = `It's ${currentPlayer.id}'s turn.`
         gameboard.style.pointerEvents = 'auto'
         show(header)
@@ -138,15 +140,38 @@ function determineWin(player) {
 }
 
 function displayWin(player) {
-    console.log('heyo')
     player.wins++
     header.innerText = `Congrats! ${player.id} has won!`
-    if (player.token === '🔥') {
+    if (player.token.includes('🔥')) {
         fireWins.innerText = `${player.wins} wins`
-    } else if (player.token === '🌊') {
+    }
+    if (player.token.includes('🌊')) {
         waterWins.innerText = `${player.wins} wins`
     }
+    resetGame(player)
 }
+
+function resetGame() {
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].textContent = ''
+    }
+    var losingPlayer = (currentPlayer === humanPlayer) ? computerPlayer : humanPlayer
+    currentPlayer = losingPlayer
+    gameOver = true
+    gameboard.style.pointerEvents = 'none'
+    setTimeout(() => {
+        header.innerText = `It's ${currentPlayer.id}'s turn.`
+        if (currentPlayer === humanPlayer) {
+            gameboard.style.pointerEvents = 'auto'
+        } else {
+            setTimeout(computerMove, 1000)
+        }
+        header.innerText = ''
+    }, 2000) 
+}
+//Have to pass winning player in as an argument to reset; Reset isn't complete, so computerMove isn't firing ; 
+// currentPlayer is assigned to both players in this function currently; 
+//How to organize game start data to be stored in an object?
 
 function hide(element) {
     element.classList.add('hidden')
