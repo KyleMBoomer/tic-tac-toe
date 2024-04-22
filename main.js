@@ -11,8 +11,8 @@ var playerTwoWins = document.querySelector('#player2-wins')
 var currentPlayer;
 var humanPlayer = createPlayer('', '')
 var computerPlayer = createPlayer('', '')
-var winningCombos = [[0,1,2],[3,4,5],[6,7,8],[0,3,6]
-[1,4,7],[2,5,8],[0,4,8]]
+var winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
+[1, 4, 7], [2, 5, 8], [0, 4, 8], [6, 4, 2]]
 
 //eventListeners
 gameboard.addEventListener('click', function (e) {
@@ -94,25 +94,40 @@ function computerMove() {
         computerPlayer.guesses.push(+selectedIndex.id)
     }
     determineWin(computerPlayer)
-    toggleTurn() 
+    toggleTurn()
 }
 
 function determineWin(player) {
-    for (var i = 0; i < winningCombos.length; i++) {
-        console.log(winningCombos[i].length)
-        for (var j = 0; j < winningCombos[i].length; j++) {
-            if (player.guesses.includes(winningCombos[j])) {
-                player.wins ++
-                displayWin(player)
+    console.log('hello')
+    var players = [humanPlayer, computerPlayer]
+    for (var p = 0; p < players.length; p++) {
+        var player = players[p]
+        for (var i = 0; i < winningCombos.length; i++) {
+            var winCombo = winningCombos[i]
+            var isWinner = true
+            for (var j = 0; j < winCombo.length; j++) {
+                var cellIndex = winCombo[j]
+                if (!player.guesses.includes(cellIndex)) {
+                    isWinner = false
+                    break
+                }
+            }
+            if (isWinner) {
+                console.log('You won!')
+                // displayWin(player)
             }
         }
     }
 }
 
-function displayWin(player) {
-    header.innerText = `Congrats! ${player.id} has won!`
-    player.innerText = `${player.wins}`
-}
+// function displayWin(player) {
+//     console.log('heyo')
+//     player.wins++
+//     header.innerText = `Congrats! ${player.id} has won!`
+//     player.innerText = `${player.wins}`
+//     show(header)
+//     toggleTurn()
+// }
 
 function hide(element) {
     element.classList.add('hidden')
