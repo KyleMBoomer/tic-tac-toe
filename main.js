@@ -13,6 +13,7 @@ var humanPlayer = createPlayer('', '')
 var computerPlayer = createPlayer('', '')
 var winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
 [1, 4, 7], [2, 5, 8], [0, 4, 8], [6, 4, 2]]
+var gameOver = true 
 
 //eventListeners
 gameboard.addEventListener('click', function (e) {
@@ -86,6 +87,9 @@ function getRandomIndex(array) {
 }
 
 function computerMove() {
+    if (!gameOver) {
+        return; 
+    }
     var availableCells = getAvailableCells()
     if (availableCells.length) {
         var randomIndex = getRandomIndex(availableCells)
@@ -93,7 +97,9 @@ function computerMove() {
         cells[selectedIndex.id].textContent = computerPlayer.token
         computerPlayer.guesses.push(+selectedIndex.id)
     }
-    determineWin(computerPlayer)
+    if(determineWin(computerPlayer)) {
+        gameOver = false;
+    }
     toggleTurn()
 }
 
@@ -118,13 +124,15 @@ function determineWin(player) {
             }
         }
         if (isWinner) {
-            console.log(`${player.id} is the winner!`)
+            header.innerText = `${player.id} is the winner!`
+            gameOver = false 
             return true
             // displayWin(player)
         }
     }
     if (isBoardFull()) {
         header.innerText = 'Game is a draw'
+        gameOver = false
         return true
     }
     return false
