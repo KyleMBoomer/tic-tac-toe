@@ -97,27 +97,37 @@ function computerMove() {
     toggleTurn()
 }
 
-function determineWin(player) {
-    console.log('hello')
-    var players = [humanPlayer, computerPlayer]
-    for (var p = 0; p < players.length; p++) {
-        var player = players[p]
-        for (var i = 0; i < winningCombos.length; i++) {
-            var winCombo = winningCombos[i]
-            var isWinner = true
-            for (var j = 0; j < winCombo.length; j++) {
-                var cellIndex = winCombo[j]
-                if (!player.guesses.includes(cellIndex)) {
-                    isWinner = false
-                    break
-                }
-            }
-            if (isWinner) {
-                console.log('You won!')
-                // displayWin(player)
-            }
+function isBoardFull() {
+    for (var i = 0; i < cells.length; i++) {
+        if (cells[i].textContent === '') {
+            return false
         }
     }
+    return true
+}
+
+function determineWin(player) {
+    for (var i = 0; i < winningCombos.length; i++) {
+        var winCombo = winningCombos[i]
+        var isWinner = true
+        for (var j = 0; j < winCombo.length; j++) {
+            var cellIndex = winCombo[j]
+            if (cells[cellIndex].textContent !== player.token) {
+                isWinner = false
+                break
+            }
+        }
+        if (isWinner) {
+            console.log(`${player.id} is the winner!`)
+            return true
+            // displayWin(player)
+        }
+    }
+    if (isBoardFull()) {
+        header.innerText = 'Game is a draw'
+        return true
+    }
+    return false
 }
 
 // function displayWin(player) {
