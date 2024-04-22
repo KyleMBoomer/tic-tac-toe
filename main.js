@@ -4,8 +4,8 @@ var playerSelect = document.getElementById('player-select')
 var dropdown = document.querySelector('.player-select-dropdown')
 var header = document.querySelector('h3')
 var gameboard = document.querySelector('.gameboard')
-var playerOneWins = document.querySelector('#player1-wins')
-var playerTwoWins = document.querySelector('#player2-wins')
+var fireWins = document.querySelector('#player1-wins')
+var waterWins = document.querySelector('#player2-wins')
 
 //Variables & Data Model
 var currentPlayer;
@@ -13,7 +13,7 @@ var humanPlayer = createPlayer('', '')
 var computerPlayer = createPlayer('', '')
 var winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
 [1, 4, 7], [2, 5, 8], [0, 4, 8], [6, 4, 2]]
-var gameOver = true 
+var gameOver = true
 
 //eventListeners
 gameboard.addEventListener('click', function (e) {
@@ -88,7 +88,7 @@ function getRandomIndex(array) {
 
 function computerMove() {
     if (!gameOver) {
-        return; 
+        return;
     }
     var availableCells = getAvailableCells()
     if (availableCells.length) {
@@ -97,7 +97,7 @@ function computerMove() {
         cells[selectedIndex.id].textContent = computerPlayer.token
         computerPlayer.guesses.push(+selectedIndex.id)
     }
-    if(determineWin(computerPlayer)) {
+    if (determineWin(computerPlayer)) {
         gameOver = false;
     }
     toggleTurn()
@@ -124,10 +124,9 @@ function determineWin(player) {
             }
         }
         if (isWinner) {
-            header.innerText = `${player.id} is the winner!`
-            gameOver = false 
+            displayWin(player)
+            gameOver = false
             return true
-            // displayWin(player)
         }
     }
     if (isBoardFull()) {
@@ -138,14 +137,16 @@ function determineWin(player) {
     return false
 }
 
-// function displayWin(player) {
-//     console.log('heyo')
-//     player.wins++
-//     header.innerText = `Congrats! ${player.id} has won!`
-//     player.innerText = `${player.wins}`
-//     show(header)
-//     toggleTurn()
-// }
+function displayWin(player) {
+    console.log('heyo')
+    player.wins++
+    header.innerText = `Congrats! ${player.id} has won!`
+    if (player.token === '🔥') {
+        fireWins.innerText = `${player.wins} wins`
+    } else if (player.token === '🌊') {
+        waterWins.innerText = `${player.wins} wins`
+    }
+}
 
 function hide(element) {
     element.classList.add('hidden')
