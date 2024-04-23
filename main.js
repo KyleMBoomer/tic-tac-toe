@@ -13,7 +13,7 @@ var humanPlayer = createPlayer('', '')
 var computerPlayer = createPlayer('', '')
 var winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
 [1, 4, 7], [2, 5, 8], [0, 4, 8], [6, 4, 2]]
-var gameOver = true
+var gameOn = true
 
 //eventListeners
 gameboard.addEventListener('click', function (e) {
@@ -63,8 +63,9 @@ function toggleTurn() {
         currentPlayer.token = computerPlayer.token
         header.innerText = `It's ${currentPlayer.id}'s turn.`
         gameboard.style.pointerEvents = 'none'
-        setTimeout(computerMove, 1000)
-        show(header)
+        if (gameOn) {
+            setTimeout(computerMove, 1000);
+        }
     } else {
         currentPlayer = humanPlayer
         currentPlayer.token = humanPlayer.token
@@ -89,7 +90,7 @@ function getRandomIndex(array) {
 }
 
 function computerMove() {
-    if (!gameOver) {
+    if (!gameOn) {
         return;
     }
     var availableCells = getAvailableCells()
@@ -100,7 +101,7 @@ function computerMove() {
         computerPlayer.guesses.push(+selectedIndex.id)
     }
     if (determineWin(computerPlayer)) {
-        gameOver = false;
+        gameOn = false;
     }
     toggleTurn()
 }
@@ -127,18 +128,20 @@ function determineWin(player) {
         }
         if (isWinner) {
             displayWin(player)
-            gameOver = false
+            gameOn = false
             return true
         }
     }
     if (isBoardFull()) {
         header.innerText = 'Game is a draw'
-        gameOver = false
+        gameOn = false
+        setTimeout(function () {
+            resetGame(null);
+        }, 1500)
         return true
     }
     return false
 }
-
 function displayWin(player) {
     player.wins++
     header.innerText = `Congrats! ${player.id} has won!`
@@ -148,30 +151,27 @@ function displayWin(player) {
     if (player.token.includes('🌊')) {
         waterWins.innerText = `${player.wins} wins`
     }
-    resetGame(player)
+    setTimeout(function () {
+        resetGame(player);
+    }, 1500)
 }
 
-function resetGame() {
+function resetGame(winner) {
     for (var i = 0; i < cells.length; i++) {
         cells[i].textContent = ''
     }
-    var losingPlayer = (currentPlayer === humanPlayer) ? computerPlayer : humanPlayer
-    currentPlayer = losingPlayer
-    gameOver = true
-    gameboard.style.pointerEvents = 'none'
-    setTimeout(() => {
-        header.innerText = `It's ${currentPlayer.id}'s turn.`
-        if (currentPlayer === humanPlayer) {
-            gameboard.style.pointerEvents = 'auto'
-        } else {
-            setTimeout(computerMove, 1000)
-        }
-        header.innerText = ''
-    }, 2000) 
+    humanPlayer.guesses = []
+    computerPlayer.guesses = []
+    gameOn = true
+    currentPlayer = winner === humanPlayer ? computerPlayer : humanPlayer
+    header.innerText = `It's ${currentPlayer.id}'s turn.`
+    if (currentPlayer === computerPlayer) {
+        setTimeout(computerMove, 1000)
+    } else {
+        gameboard.style.pointerEvents = 'auto'
+        show(header)
+    }
 }
-//Have to pass winning player in as an argument to reset; Reset isn't complete, so computerMove isn't firing ; 
-// currentPlayer is assigned to both players in this function currently; 
-//How to organize game start data to be stored in an object?
 
 function hide(element) {
     element.classList.add('hidden')
