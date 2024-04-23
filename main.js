@@ -16,6 +16,9 @@ var winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
 var gameOn = true
 
 //eventListeners
+document.addEventListener('DOMContentLoaded', function () {
+    stopClicks()
+})
 gameboard.addEventListener('click', function (e) {
     if (e.target.classList.contains('cell')) {
         addToken(e.target.id)
@@ -36,6 +39,7 @@ playerSelect.addEventListener('change', () => {
     header.innerText = `It's ${currentPlayer.id}'s turn.`
     hide(dropdown)
     show(header)
+    allowClicks()
 
 })
 //eventHandlers
@@ -65,7 +69,7 @@ function toggleTurn() {
         currentPlayer = computerPlayer
         currentPlayer.token = computerPlayer.token
         header.innerText = `It's ${currentPlayer.id}'s turn.`
-        gameboard.style.pointerEvents = 'none'
+        stopClicks()
         if (gameOn) {
             setTimeout(computerMove, 1000);
         }
@@ -73,7 +77,7 @@ function toggleTurn() {
         currentPlayer = humanPlayer
         currentPlayer.token = humanPlayer.token
         header.innerText = `It's ${currentPlayer.id}'s turn.`
-        gameboard.style.pointerEvents = 'auto'
+        allowClicks()
         show(header)
     }
 }
@@ -172,7 +176,7 @@ function resetGame(winner) {
     if (currentPlayer === computerPlayer) {
         setTimeout(computerMove, 1000)
     } else {
-        gameboard.style.pointerEvents = 'auto'
+        allowClicks()
         show(header)
     }
 }
@@ -183,4 +187,12 @@ function hide(element) {
 
 function show(element) {
     element.classList.remove('hidden')
+}
+
+function stopClicks() {
+    gameboard.style.pointerEvents = 'none'
+}
+
+function allowClicks() {
+    gameboard.style.pointerEvents = 'auto'
 }
