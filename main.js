@@ -4,8 +4,8 @@ var playerSelect = document.getElementById('player-select')
 var dropdown = document.querySelector('.player-select-dropdown')
 var header = document.querySelector('h3')
 var gameboard = document.querySelector('.gameboard')
-var playerOneWins = document.querySelector('#player1-wins')
-var playerTwoWins = document.querySelector('#player2-wins')
+var fireWins = document.querySelector('#player1-wins')
+var waterWins = document.querySelector('#player2-wins')
 
 //Variables & Data Model
 var currentPlayer;
@@ -13,7 +13,7 @@ var humanPlayer = createPlayer('', '')
 var computerPlayer = createPlayer('', '')
 var winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
 [1, 4, 7], [2, 5, 8], [0, 4, 8], [6, 4, 2]]
-var gameOver = true 
+var gameOn = true
 
 //eventListeners
 gameboard.addEventListener('click', function (e) {
@@ -60,12 +60,15 @@ function createPlayer(id, token) {
 function toggleTurn() {
     if (currentPlayer === humanPlayer) {
         currentPlayer = computerPlayer
+        currentPlayer.token = computerPlayer.token
         header.innerText = `It's ${currentPlayer.id}'s turn.`
         gameboard.style.pointerEvents = 'none'
-        setTimeout(computerMove, 1000)
-        show(header)
+        if (gameOn) {
+            setTimeout(computerMove, 1000);
+        }
     } else {
         currentPlayer = humanPlayer
+        currentPlayer.token = humanPlayer.token
         header.innerText = `It's ${currentPlayer.id}'s turn.`
         gameboard.style.pointerEvents = 'auto'
         show(header)
@@ -87,8 +90,8 @@ function getRandomIndex(array) {
 }
 
 function computerMove() {
-    if (!gameOver) {
-        return; 
+    if (!gameOn) {
+        return;
     }
     var availableCells = getAvailableCells()
     if (availableCells.length) {
@@ -97,8 +100,8 @@ function computerMove() {
         cells[selectedIndex.id].textContent = computerPlayer.token
         computerPlayer.guesses.push(+selectedIndex.id)
     }
-    if(determineWin(computerPlayer)) {
-        gameOver = false;
+    if (determineWin(computerPlayer)) {
+        gameOn = false;
     }
     toggleTurn()
 }
@@ -124,28 +127,51 @@ function determineWin(player) {
             }
         }
         if (isWinner) {
-            header.innerText = `${player.id} is the winner!`
-            gameOver = false 
+            displayWin(player)
+            gameOn = false
             return true
-            // displayWin(player)
         }
     }
     if (isBoardFull()) {
         header.innerText = 'Game is a draw'
-        gameOver = false
+        gameOn = false
+        setTimeout(function () {
+            resetGame(null);
+        }, 1500)
         return true
     }
     return false
 }
+function displayWin(player) {
+    player.wins++
+    header.innerText = `Congrats! ${player.id} has won!`
+    if (player.token.includes('🔥')) {
+        fireWins.innerText = `${player.wins} wins`
+    }
+    if (player.token.includes('🌊')) {
+        waterWins.innerText = `${player.wins} wins`
+    }
+    setTimeout(function () {
+        resetGame(player);
+    }, 1500)
+}
 
-// function displayWin(player) {
-//     console.log('heyo')
-//     player.wins++
-//     header.innerText = `Congrats! ${player.id} has won!`
-//     player.innerText = `${player.wins}`
-//     show(header)
-//     toggleTurn()
-// }
+function resetGame(winner) {
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].textContent = ''
+    }
+    humanPlayer.guesses = []
+    computerPlayer.guesses = []
+    gameOn = true
+    currentPlayer = winner === humanPlayer ? computerPlayer : humanPlayer
+    header.innerText = `It's ${currentPlayer.id}'s turn.`
+    if (currentPlayer === computerPlayer) {
+        setTimeout(computerMove, 1000)
+    } else {
+        gameboard.style.pointerEvents = 'auto'
+        show(header)
+    }
+}
 
 function hide(element) {
     element.classList.add('hidden')
