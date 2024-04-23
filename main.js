@@ -58,6 +58,9 @@ function createPlayer(id, token) {
 }
 
 function toggleTurn() {
+    if (!gameOn) {
+        return
+    }
     if (currentPlayer === humanPlayer) {
         currentPlayer = computerPlayer
         currentPlayer.token = computerPlayer.token
@@ -102,6 +105,7 @@ function computerMove() {
     }
     if (determineWin(computerPlayer)) {
         gameOn = false;
+        displayWin(computerPlayer)
     }
     toggleTurn()
 }
