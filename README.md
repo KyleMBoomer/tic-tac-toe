@@ -17,7 +17,7 @@ What if there's a draw? The game declares a draw, and the winner's turn is set n
 - CSS
 
 ## Installation 
-Go [here](www.github.com/kylemboomer/tic-tac-toe), clone down the repo, and open it in your browser.
+Go [here](https://github.com/KyleMBoomer/tic-tac-toe), clone down the repo, and open it in your browser.
 
 ## Usage
 1. Choose your player by selecting "Fire" or "Water" from the dropdown menu.
