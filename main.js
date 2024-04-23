@@ -80,6 +80,7 @@ function toggleTurn() {
         allowClicks()
         show(header)
     }
+
 }
 
 function getAvailableCells() {
@@ -111,8 +112,20 @@ function computerMove() {
         gameOn = false;
         displayWin(computerPlayer)
     }
-    toggleTurn()
+    if (isBoardFull()) {
+        header.innerText = 'Game is a draw.'
+        gameOn = false
+        setTimeout(function () {
+            resetGame(null)
+        }, 1500)
+        return
+    }
+     if (gameOn) {
+        toggleTurn();
+    }
 }
+
+
 
 function isBoardFull() {
     for (var i = 0; i < cells.length; i++) {
@@ -171,7 +184,7 @@ function resetGame(winner) {
     humanPlayer.guesses = []
     computerPlayer.guesses = []
     gameOn = true
-    currentPlayer = winner === humanPlayer ? computerPlayer : humanPlayer
+    currentPlayer = currentPlayer === humanPlayer ? computerPlayer : humanPlayer
     header.innerText = `It's ${currentPlayer.id}'s turn.`
     if (currentPlayer === computerPlayer) {
         setTimeout(computerMove, 1000)
