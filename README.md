@@ -26,5 +26,8 @@ Go [here](https://github.com/KyleMBoomer/tic-tac-toe), clone down the repo, and 
 4. Aim to get three of your symbols in a row, column, or diagonal to win the game.
 5. If the board fills up without a winner, the game declares a draw.
 
+## Demo
+Click [here](https://kylemboomer.github.io/tic-tac-toe/)
+
 ## Credit
 This project was written in full by Kyle Boomer kylemboomer@gmail.com
