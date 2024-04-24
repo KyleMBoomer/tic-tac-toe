@@ -184,7 +184,11 @@ function resetGame(winner) {
     humanPlayer.guesses = []
     computerPlayer.guesses = []
     gameOn = true
-    currentPlayer = currentPlayer === humanPlayer ? computerPlayer : humanPlayer
+    if (winner) {
+        currentPlayer = winner === humanPlayer ? computerPlayer : humanPlayer
+    } else {
+        currentPlayer = currentPlayer === humanPlayer ? computerPlayer : humanPlayer
+    }
     header.innerText = `It's ${currentPlayer.id}'s turn.`
     if (currentPlayer === computerPlayer) {
         setTimeout(computerMove, 1000)
