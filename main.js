@@ -108,22 +108,10 @@ function computerMove() {
         cells[selectedIndex.id].textContent = computerPlayer.token
         computerPlayer.guesses.push(+selectedIndex.id)
     }
-    if (determineWin(computerPlayer)) {
-        gameOn = false;
-        displayWin(computerPlayer)
-    }
-    if (isBoardFull()) {
-        header.innerText = 'Game is a draw.'
-        gameOn = false
-        setTimeout(function () {
-            resetGame(null)
-        }, 1500)
-        return
-    }
-     if (gameOn) {
-        toggleTurn();
-    }
+    determineWin(computerPlayer)
+    toggleTurn();
 }
+
 
 
 
@@ -137,6 +125,7 @@ function isBoardFull() {
 }
 
 function determineWin(player) {
+    console.log('determineWin')
     for (var i = 0; i < winningCombos.length; i++) {
         var winCombo = winningCombos[i]
         var isWinner = true
